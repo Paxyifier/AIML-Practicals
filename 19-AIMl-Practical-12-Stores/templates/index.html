@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-image {
+      background-image: url('/images/desktop-1920x1080.jpeg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript">
+    function predict() {
+      const Store_Area = document.getElementById('Store_Area').value;
+      const Items_Available = document.getElementById('Items_Available').value;
+      const Daily_Customer_Count = document.getElementById('Daily_Customer_Count').value;
+      axios.post('http://localhost:5000/api/predict/Stores', {
+        Store_Area:parseInt(Store_Area),
+        Items_Available: parseInt(Items_Available),
+        Daily_Customer_Count: parseInt(Daily_Customer_Count)
+      })
+      .then(function (response) {
+        document.getElementById('prediction').hidden = false;
+        document.getElementById('Prediction').innerHTML = response.data.prediction;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  </script>
+</head>
+<body class="bg-image">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-lg">
+      <h1 class="text-3xl font-bold mb-4">Beautiful Website</h1>
+      <form>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="Store_Area">
+            Store Area
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Store_Area" type="text" placeholder="Enter parameter 1">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="Items_Available">
+            Items Available
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Items_Available" type="text" placeholder="Enter parameter 2">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="Daily_Customer_Count">
+            Daily Customer Count
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Daily_Customer_Count" type="text" placeholder="Enter parameter 3">
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="predict()">
+          Predict
+        </button>
+      </form>
+      <div hidden="true" id="prediction" class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="Daily_Customer_Count">
+          Store Predicted Sales
+        </label>
+        <p class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="prediction_value" type="text" placeholder="Enter parameter 3">
+
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-image {
+      background-image: url('/images/desktop-1920x1080.jpeg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript">
+    function predict() {
+      const age = document.getElementById('age').value;
+      const sex = document.getElementById('sex').value;
+      const bmi = document.getElementById('bmi').value;
+      const children = document.getElementById('children').value;
+      const smoker = document.getElementById('smoker').value;
+      const region = document.getElementById('region').value;
+      axios.post('http://localhost:5000/api/predict/insurance', {
+        age:parseInt(age),
+        bmi:parseFloat(bmi),
+        smoker,
+        sex,
+        region,
+        children:parseInt(children)
+      })
+      .then(function (response) {
+        document.getElementById('prediction-div').hidden = false;
+        document.getElementById('Prediction').innerHTML = response.data.charges;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  </script>
+</head>
+<body class="bg-image">
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-lg">
+      <h1 class="text-3xl font-bold mb-4">Beautiful Website</h1>
+      <form>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="age">
+            Age
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="age" type="text" placeholder="Enter Age">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="sex">
+            Sex
+          </label>
+          <select class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="bmi">
+            BMI
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="bmi" type="text" placeholder="Enter BMI">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="children">
+            Children
+          </label>
+          <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="children" type="text" placeholder="Enter Nol. of Children">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="smoker">
+            Are you a smoker?
+          </label>
+          <select class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="smoker">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="region">
+            Region
+          </label>
+          <select class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="region">
+            <option value="northeast">Northeast</option>
+            <option value="southwest">Southwest</option>
+            <option value="northwest">Northwest</option>
+            <option value="southeast">Southeast</option>
+          </select>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="predict()">
+          Submit
+        </button>
+      </form>
+      
+      <div class="mb-4" id="prediction-div" hidden>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="region">
+          Prediction
+        </label>
+        <p id="Prediction" class="text-gray-700 text-lg"></p>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
