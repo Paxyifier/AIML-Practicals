@@ -1,5 +1,6 @@
 import pickle
 import glob
+from train import train
 
 def get_model():
     list_of_files = glob.glob("models/insurance-model_*.pkl")
@@ -7,8 +8,9 @@ def get_model():
     try:
         model = pickle.load(open(list_of_files[0], "rb"))
     except IndexError:
-        print("No model found")
-        exit(1)
+        print("No model found, Generating one now...")
+        train()
+        return get_model()
     return model
 # if __name__ == "__main__":
 #     model = get_model()
