@@ -21,7 +21,7 @@
       const children = document.getElementById('children').value;
       const smoker = document.getElementById('smoker').value;
       const region = document.getElementById('region').value;
-      axios.post('http://localhost:5000/api/predict/insurance', {
+      axios.post('/api/predict/insurance', {
         age:parseInt(age),
         bmi:parseFloat(bmi),
         smoker,
